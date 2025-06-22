@@ -2,7 +2,7 @@ use serde_json::json;
 use tungstenite::{connect};
 fn main() {
 
-    match connect("stream.binance.com"){
+    match connect("wss://stream.binance.com"){
         Ok((mut socket, response)) => {
             println!("响应: {:?}", response)
         },
