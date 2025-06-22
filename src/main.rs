@@ -8,22 +8,29 @@ fn main() {
             }).to_string();
     match connect("wss://stream.binance.com:9443/ws"){
         Ok((mut socket, response)) => {
-            if response.status().as_u16() == 101 {
-                match socket.send(Message::Text(Utf8Bytes::from(subscribe))){
-                    Ok(_) => {
-                        loop {
-                            match socket.read() {
-                                Ok(Message::Text(text)) => {
-                                    println!("{}", text);
-                                },
-                                Ok(_) => {},
-                                Err(_) => {}
+            match response.status().as_u16() {
+                101 => {
+                    match socket.send(Message::Text(Utf8Bytes::from(subscribe))){
+                        Ok(_) => {
+                            loop {
+                                match socket.read() {
+                                    Ok(Message::Text(text)) => {
+                                        println!("{}", text);
+                                    },
+                                    Ok(_) => {},
+                                    Err(_) => {}
+                                }
                             }
                         }
+                        Err(_) => {}
                     }
-                    Err(_) => {}
+
+                },
+                _ => {
+                    println!("连接异常{:?}", response);
                 }
-            };
+            }
+
 
 
         },
