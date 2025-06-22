@@ -1,0 +1,8 @@
+[package]
+name = "binance_ws_stream"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tungstenite= { version = "*" ,features = ["native-tls"]}
+serde_json="*"
